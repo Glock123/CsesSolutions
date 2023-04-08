@@ -1,4 +1,5 @@
 from collections import defaultdict
+import math
 
 class ReadLine:
     def __init__(self, from_file):
@@ -28,25 +29,20 @@ def array(s):
 def integer(s):
     return int(s)
 
-inp = ReadLine(False)
-t = integer(inp.read_line())
+def solve():
+    global inp
+    n = integer(inp.read_line())
+    ans=0
+    pow=1
+    while 5**pow <= n:
+        ans += math.floor(n / 5**pow)
+        pow+=1
+    print(ans)
+    pass
 
-for _ in range(t):
-    n, q = array(inp.read_line())
-    x = array(inp.read_line())
+if __name__ == '__main__':
+    global inp
+    inp = ReadLine(False)
+    solve()
+    inp.destroy_file_obj()
 
-    pre_sum = [0]*n
-    pre_sum[0] = x[0]
-    for i, num in enumerate(x[1:]):
-        pre_sum[i+1] = pre_sum[i] + num
-    # print(pre_sum)
-    for _ in range(q):
-        l, r, k = array(inp.read_line())
-        sum = (0 if l==1 else pre_sum[l-2]) + (r-l+1)*k + (0 if r==n else pre_sum[n-1]-pre_sum[r-1])
-        # print(sum, end=': ')
-        if sum%2==0:
-            print('NO')
-        else:
-            print('YES')
-
-inp.destroy_file_obj()
